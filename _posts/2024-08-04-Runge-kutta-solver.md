@@ -10,10 +10,11 @@ Last article, we used the forward euler method to solve an initial value problem
 
 ### RK4
 Founded by Carl Runge and Martin Kutta, the RK4 has the following formula:  
-\$$ y_{n+1} = y_n + 1/6(K1 + 2K_2 + 2K_3 + k_4) \$$  
-\$ K_1 = hf(X_n, y_n) \$
-\$ K_2 = hf(X_n+1/2h)
+\$$ y_{n+1} = y_n + 1/6(K1 + 2K_2 + 2K_3 + K_4) \$$  
+\$ K_1 = hf(x_n, y_n) \$
+\$ K_2 = hf(x_n + 1/2h, y_n + 1/2K_1) \$
 
 
 
 
+aasdassdasd
