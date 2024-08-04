@@ -152,7 +152,7 @@ t_fin = 200
 init_cond = [0, 1, 100]
 params = [0.1, 0.5, 0.5, 0.01]
 ```
-![Figure 2](/assets/images/Lotka-Volterra/Figure_2.png)  
+![Figure 2](/assets/images/Lotka-Volterra/Figure_2.png)
 If we did that, the predator would be too over-powered, and the prey would die off immediately, due to that, the predator won't have enough food, and will also die to extinction gradually.  
 Now let's try to give more advantage to the prey
 ```
