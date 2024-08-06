@@ -6,7 +6,10 @@ categories: jekyll update
 ---
 
 ### Intro
-Last article, we used the forward euler method to solve an initial value problem from Lotka Volterra system, today we will be using a different method, ***4th order runge-kutta***, abbreviated ***RK4***, to do the same thing.
+Last article, we used the forward euler method to solve an initial value problem from Lotka Volterra system, today we will be using a different method, ***4th order runge-kutta***, abbreviated ***RK4***, to do the same thing.  
+
+If you forgot what lotka volterra was, you can check my previous article in the introduction part, which is the first paragraph.
+[Solving Lotka Volterra using Euler Forward method](https://frankhong1.github.io/Jekyll-site/jekyll/update/2024/07/30/Lotka-Volterra.html)  
 
 ### RK4
 Founded by Carl Runge and Martin Kutta, RK4 has the following formula:  
@@ -68,18 +71,19 @@ class RK_4:
   def operation(self, x, y, *args):
     val = (1/6) * (self.K_1(x, y, *args) + 2 * self.K_2(x, y, *args) + 2 * self.K_3(x, y, *args) + self.K_4(x, y, *args))
     return val
-```
+```  
 
-So let's analyze the code.  
 Initialization method assigns an instance of the class its own properties, and we can call its own properties when needed.  
 We put 2 parameters(other than self) in the initialization method, which is deriv, and h:
-* deriv - basically just /$ f(x, y) /$
+* deriv - basically just f(x, y)
 * h - the size step during each iteration  
 
 As mentioned previously, RK4 takes 4 values during each iteration, therefore, we assign 4 methods respectively for K1, K2, K3 and K4 according to the formula.  
+
 One thing to notice here is, we also put ___*args___ here, which is quite essential:  
 The methods K1, K2, K3, K4 were supposed to take only two arguments, ***x and y***, and process them, which intuitively sounds correct.  
 However, ***self.deriv*** might take ***more than two arguments***, instead of just x and y, self.deriv might include other arguments such as parameters used inside the derivative.  
+
 Therefore, we used ___*args___ to allow additional positional arguments, which means, the methods will now take ___at least two arguments___.
 It is also conventioanl to include ___**kwargs___ to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
@@ -100,7 +104,8 @@ def f_y(x, y, params):
   d = params['predator_deathrate']
   dy_dt = c * x * y - (d * y)
   return dy_dt
-```
+```  
+
 We define the derivatives of population against time for prey and predator respectively.  
 We will assign the variables as: 
 * x - the population of the prey
@@ -142,7 +147,7 @@ def lotka_volterra(params):
     T.append(t)
     X.append(x)
     Y.append(y)
-```
+```  
 
 The forward loop function takes one parameter: 'param', it is a dictionary object that includes all the parameters needed, which are:
 * Prey birthrate
@@ -164,5 +169,13 @@ In this forward loop:
 5. Established an 'infinite' loop.
 6. Created conditions for the loop to end:
     * when t reaches \$ t_f \$
-    * when either of the population reaches or passes zero
-                                
+    * when either of the population reaches or passes zero  
+
+Now we can play around with it! With the help of matplot:
+```
+import matplotlib.pyplot as plt
+```
+We get to have a better visual understanding of whatever is going on.  
+
+
+
