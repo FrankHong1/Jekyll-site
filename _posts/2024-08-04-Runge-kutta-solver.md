@@ -163,6 +163,6 @@ In this forward loop:
 4. Called did the same thing, and initialized an instance of the RK4 used for the predator.
 5. Established an 'infinite' loop.
 6. Created conditions for the loop to end:
-                                            * when t reaches \$ t_f \$
-                                            * when either of the population reaches or passes zero
-                                            
+    * when t reaches \$ t_f \$
+    * when either of the population reaches or passes zero
+                                
