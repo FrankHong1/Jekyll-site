@@ -1,14 +1,14 @@
 ---
 layout: post
 title: "Solving Lotka Volterra using Fourth order runge-kutta"
-date: 2024-07-30 05:15:25 -0500
+date: 2024-08-04 05:15:25 -0500
 categories: jekyll update
 ---
 
 ### Intro
 Last article, we used the forward euler method to solve an initial value problem from Lotka Volterra system, today we will be using a different method, ***4th order runge-kutta***, abbreviated ***RK4***, to do the same thing.  
 
-If you forgot what lotka volterra was, you can check my previous article in the introduction part, which is the first paragraph.
+If you forgot what lotka volterra was, you can check my previous article in the introduction part, which is the first paragraph.  
 [Solving Lotka Volterra using Euler Forward method](https://frankhong1.github.io/Jekyll-site/jekyll/update/2024/07/30/Lotka-Volterra.html)  
 
 ### RK4
