@@ -15,6 +15,3 @@ Founded by Carl Runge and Martin Kutta, the RK4 has the following formula:
 \$ K_2 = hf(x_n + 1/2h, y_n + 1/2K_1) \$
 
 
-
-
-aasdassdasd
