@@ -75,17 +75,17 @@ class RK_4:
 
 Initialization method assigns an instance of the class its own properties, and we can call its own properties when needed.  
 We put 2 parameters(other than self) in the initialization method, which is deriv, and h:
-* deriv - basically just f(x, y)
-* h - the size step during each iteration  
+* `deriv` - basically just f(x, y)
+* `h` - the size step during each iteration  
 
 As mentioned previously, RK4 takes 4 values during each iteration, therefore, we assign 4 methods respectively for K1, K2, K3 and K4 according to the formula.  
 
 One thing to notice here is, we also put ___*args___ here, which is quite essential:  
 The methods K1, K2, K3, K4 were supposed to take only two arguments, ***x and y***, and process them, which intuitively sounds correct.  
-However, ***self.deriv*** might take ***more than two arguments***, instead of just x and y, self.deriv might include other arguments such as parameters used inside the derivative.  
+However, `***self.deriv***` might take ***more than two arguments***, instead of just x and y, self.deriv might include other arguments such as parameters used inside the derivative.  
 
-Therefore, we used ___*args___ to allow additional positional arguments, which means, the methods will now take ___at least two arguments___.
-It is also conventioanl to include ___**kwargs___ to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
+Therefore, we used `___*args___` to allow additional positional arguments, which means, the methods will now take ___at least two arguments___.
+It is also conventioanl to include `___**kwargs___` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
 In the last method, the operation, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
 
@@ -120,28 +120,27 @@ def lotka_volterra(params):
   T = []
   X = []
   Y = []
+  
   t = params['interval'][0]
   t_f = params['interval'][1]
   x = params['initial_prey']
   y = params['initial_predator']
+  h = params['step']
   T.append(t)
   X.append(x)
   Y.append(y)
   
-  h = params['step']
-  dx = RK_4(f_x, h).operation(x, y, params)
-  dy = RK_4(f_y, h).operation(x, y, params)
-  
   while True:
+    dx = RK_4(f_x, h).operation(x, y, params)
+    dy = RK_4(f_y, h).operation(x, y, params)
+    
     t = t + h
     x = x + dx
     y = y + dy
     
     if t >= t_f:
       break
-    elif x <= 0:
-      break
-    elif y <= 0:
+    elif x <= 0 and y <= 0:
       break
     
     T.append(t)
@@ -149,7 +148,7 @@ def lotka_volterra(params):
     Y.append(y)
 ```  
 
-The forward loop function takes one parameter: 'param', it is a dictionary object that includes all the parameters needed, which are:
+The forward loop function takes one parameter: `param`, it is a dictionary object that includes all the parameters needed, which are:
 * Prey birthrate
 * Prey deathrate
 * Predator birthrate
@@ -162,14 +161,16 @@ The forward loop function takes one parameter: 'param', it is a dictionary objec
 Notice that the ***order doesn't matter***, since we will be calling the values we need by ***calling the key***, instead of the index.  
 
 In this forward loop:
-1. Get the initial values ***\$ x_0, y_0, and t_0 \$***(also get \$ t_f \$ which will be used later to end the loop).
-2. Initialized empty lists ***T, X, Y*** to store the respective values of t, x, y during each iteration. 
-3. Called the step size h from the params and the pre-defined function f_x, and initialized an instance of the RK4 used for the prey with the prey's derivative.
-4. Called did the same thing, and initialized an instance of the RK4 used for the predator.
-5. Established an 'infinite' loop.
+1. Get the parameters needed like the initial values, \$ t_f \$ which will be used to determine when the loop ends, and `h` which is the step size.
+2. Initialized empty lists `***T, X, Y***` to store the respective values of ***`t, x, y`*** during each iteration. 
+3. Established an 'while True' loop, within the loop:
+  * Update 
+  * Initialized an instance of the RK4, ***dx*** used for the prey with the prey's derivative `f_x` and step size `h`.
+  * Update ***dx*** in each iteration with the updated values of x and y.
+  * Vice versa for the predator
 6. Created conditions for the loop to end:
-    * when t reaches \$ t_f \$
-    * when either of the population reaches or passes zero  
+  * when t reaches \$ t_f \$
+  * when both the population extinct
 
 Now we can play around with it! With the help of matplot:
 ```
@@ -177,5 +178,59 @@ import matplotlib.pyplot as plt
 ```
 We get to have a better visual understanding of whatever is going on.  
 
+```
+params = {'prey_birthrate': 0.3,
+          'predator_eatrate': 0.2,
+          'predator_birthrate': 0.2,
+          'predator_deathrate': 0.3,
+          'initial_prey': 100,
+          'initial_predator': 10,
+          'interval': [0, 1000],
+          'step': 0.001}
+```  
 
+The result is the following:
+![Figure 1](/assets/images/Runge-kutta-solver/Figure_1.png)  
 
+We can see that, the prey was in advantage at first, but soon being surpassed by the predator, the over-powered predator results in the extinction of the prey, and when that happen, the predator extincts slowly as it has no food.  
+
+Now we try to give the prey more advantage:  
+
+```
+params = {'prey_birthrate': 1,
+          'predator_eatrate': 0.01,
+          'predator_birthrate': 0.01,
+          'predator_deathrate': 0.7,
+          'initial_prey': 1000,
+          'initial_predator': 1,
+          'interval': [0, 1000],
+          'step': 0.001}
+```  
+
+The result is the folowing:
+![Figure 2](/assets/images/Runge-kutta-solver/Figure_2.png)  
+
+It's surprising that the prey only hold longer a little bit, and afterwards they both distinct again.  
+
+Now we try one last time:
+```
+params = {'prey_birthrate': 0.2,
+          'predator_eatrate': 0.07,
+          'predator_birthrate': 0.01,
+          'predator_deathrate': 0.5,
+          'initial_prey': 1000,
+          'initial_predator': 1,
+          'interval': [0, 1000],
+          'step': 0.001}
+```  
+
+The result is the following:
+![Figure 3](/assets/images/Runge-kutta-solver/Figure_3.png)  
+
+Now the prey given less advantage, is in fact more OP, and causing the extinction of the predator.  
+
+### Summary
+This article talks about how to use RK4 to solve lotka volterra.  
+Certainly there are better solvers, but hope you liked this article.  
+In the future if coming back to this topic, will be discussing about the perfect initial condition that will maintain the balance forever, like the bright side and dark side of the force in Star Wars.  
+Have a good day.
