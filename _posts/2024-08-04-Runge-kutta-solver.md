@@ -138,9 +138,7 @@ def lotka_volterra(params):
     x = x + dx
     y = y + dy
     
-    if t >= t_f:
-      break
-    elif x <= 0 and y <= 0:
+    if t >= t_f or x <= 0 and y <= 0:
       break
     
     T.append(t)
@@ -176,9 +174,9 @@ In this forward loop:
   * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.  
 4. Created conditions for the loop to end:
   * when `t` reaches `t_f`.
-  * when both the population extinct.
+  * Or when both the population extinct.
 
-Now we can play around with it! With the help of matplot:
+Now we can play around with it! With the help of ***matplot***:  
 ```
 import matplotlib.pyplot as plt
 ```

@@ -7,14 +7,14 @@ categories: jekyll update
 
 ### Intro
 Lotka Volterra, aka Predator Prey, is a ***system of first order ODEs*** used to predict the populations, of the prey and the predator over time, given some initial conditions.  
-In this model, the change in the population of one of the two species, instead of a function of itself, is in fact a function taking the arguments of both populations.  
+In this model, the change in the population of one of the two species, instead of a function of itself, is a function taking the arguments of both populations.  
 
 There are some ***assumptions*** to be made in this model:
 1. Only the predator and the prey exists in this system
-2. Prey born naturally and die at a rate negatively affected by both populations
-3. Foxes born at a rate positively affected by both populations and die naturally  
+2. Prey born naturally and die at a rate positively affected by both populations
+3. Predators born at a rate positively affected by both populations and die naturally  
 
-In this article, we used the simple ***euler forward method*** to solve this system of first order ODEs, in python. We will start by explaining what is euler forward method.
+In this article, we used the simple ***euler forward method*** to solve this first order IVP, in python. We will start by explaining what is euler forward method.
 
 ### Euler forward
 Created by Leonhard Euler, the method itself is defined as:
@@ -33,13 +33,13 @@ There are several ways to prove/derive the euler forward method, you can check t
 But we are not going to derive the method here.  
 The goal of the euler forward method, is to continuously approximating the value at the next point by iterating through the forward loop.  
 
-Basically what we want to do is we setup two functions respectively for the ***derivative of the population of the predator over time***, and the ***derivative of the population of prey over time***, each of the two function will take ***two arguments***, the population of the ***predator***, and the population of the ***prey***, and the two variables will be weighted by some constant, eventually returning the derivative of the indicated specie.  
+Basically what we want to do is we setup two functions respectively for the ***derivative of the population of the prey over time***, and the ***derivative of the population of predator over time***, each of the two function will take ***two arguments***, the population of the ***prey***, and the population of the ***predator***, and the two variables will be weighted by some constant, eventually returning the derivative of the indicated specie.  
 
 
 ### Setting up the derivative
 We will use:
-* \$ x \$ to represent the population of the prey
-* \$ y \$ to represent the population of the predator  
+* ***x*** to represent the population of the prey
+* ***y*** to represent the population of the predator  
 
 Now we will to set up the derivatives of x and y in the following way:  
 \$$ \dfrac{dx}{dt} = ax - bxy \$$
@@ -50,7 +50,6 @@ Where:
 * c: the birth rate of the predator
 * d: the death rate of the predator  
 
-It can be easily observed that, the ***population of the prey has a positive effect on the population of the predator***, on the otherhand, ***the population of the predator has a negative effect on the population of the prey.***  
 We can set up the functions in python through the following commands.
 ```
 def f_x(x, y, params):
@@ -65,14 +64,14 @@ def f_y(x, y, params):
   dy_dt = c * x * y - ( d * y )
   return dy_dt
 ```
-The only change is, instead of writing every value for the four parameters abcd, we pass a list consisting all the parameters into the function, and call the items in the list when necessary, the 'params' should be a list looking like the following:
+The only change is, instead of writing every value for the four parameters `a, b, c, d`, we pass a list `params` consisting all the parameters into the function, and call the items in the list when necessary, the `params` should be a list looking like the following:
 ```
 params = [a, b, c, d]
 ```
-With the functions set up, we still need one thing before iterating through the euler forward loop, ***initial conditions***, because we need a start point where the iteration is based on, that is when initial conditions become useful.  
+With the functions set up, we still need one more thing before iterating through the euler forward loop, ***initial conditions***, because we need a start point where the iteration is based on. 
 
 ### Getting the initial conditions  
-We will start by defining our body function in the following way:  
+Therefore, we will start by defining our body function in the following way:  
 ```
 def lotka_volterra(init_cond, params, h, t_fin):
   t = init_cond[0]
@@ -86,28 +85,25 @@ def lotka_volterra(init_cond, params, h, t_fin):
   Y.append(y)
 ```
 The body function takes four arguments:
-* init_cond: a list containing the initial conditions
-* params: a list containing the parameters
-* h: the size of the step between each iteration
-* t_fin: the time when the approximation ends  
+* `init_cond`: a list containing the initial conditions
+* `params`: a list containing the parameters
+* `h`: the size of the step between each iteration
+* `t_fin`: the time when the approximation ends  
 
-The 'init_cond' should be a list set up like the following:
+The `init_cond` should be a list set up like the following:
 ```
 init_cond[t_0, x_0, y_0]
 ```  
-This block of the code is basically reading the initial conditions from the passed list ***init_cond***, initializing ***three empty lists T, X, Y***, appending the initial conditions to the 3 initialized lists respectively.  
-By doing so, the euler forward loop would have the initial conditions to be fed on to start, moreover, ***after each iteration, we can store the new values of t, x, y*** in the corresponding lists using the ***'append'*** command.  
+This block of the code:
+1. Read the initial conditions from the passed list `init_cond`
+2. Initializing three empty lists `T, X, Y`, appending the initial conditions to the 3 initialized lists respectively.  
 
 ### Euler forward loop
 After obtaining the initial conditions, we can start our iteration through the following commands:
 ```
 while True:
     
-  if t >= t_fin:
-    break
-  elif x <= 0:
-    break
-  elif y <= 0:
+  if t >= t_fin or x <= 0 and y <= 0:
     break
     
   t = t + h
@@ -117,13 +113,18 @@ while True:
   X.append(x)
   Y.append(y)
 ```
-We defined an 'infintite' while True loop, starting from ***\$ t_0 \$***, given the initial ***\$ x_0 \$*** and ***\$ y_0 \$***, it will keep iterating one step at a time, with the ***step size of h***.  
-At each step the function will calculate the ***approximated value of x and y at the next step***, appending the new values of \$ x, y, z \$ to their corresponding lists after each iteeration.  
-***Until the value of t is reaches or passes \$ t_{fin} \$***, which is the designated t value to stop, or either the prey or predator ***has a population less than or equal to 0***, the loop breaks and the iteration ends.  
+In this block of the code:
+1. Defined an `while True: ` loop:
+  * Starting from `t_0`, given the initial `x_0, y_0`, keep iterating one step at a time, with the step size of `h`.    
+2. At each iteration the function will calculate the ***approximated values*** of `x` and `y` at the next step according to the euler forward method.  
+3. Appending the new values of `x, y, z` to their corresponding lists after each iteeration.  
+4. Stop the loop when:
+  * The value of t reaches or passes `t_fin`.
+  * Or when both population extinct.
 
 ### Play around with the code  
 Now that the whole code is done, we can try different values and see what will happen.  
-To help us getting a better understanding about what is actually going on, we will use matplotlib.pyplot
+To help us getting a better understanding about what is actually going on, we will use `matplotlib.pyplot`.  
 ```
 import matplotlib.pyplot as plt
 
@@ -167,7 +168,7 @@ According to the graph, even if we give the prey a tons of advantage, the two po
 ### Future possibilities
 This article is only about the easiest solver to Lotka Volterra  
 In the future, maybe I will try to use other solvers, for example, the runge-kutta solver
-I may also try to make lotka volterra more complicated, for instance, having the parameters a,b,c,d be dynamic instead of just constants, which is, to have them be functions of \$ t, x, y \$.  
+I may also try to make lotka volterra more complicated, for instance, having the parameters `a, b, c, d` be dynamic instead of just constants, which is, to have them be functions of `t, x, y`.  
 
 Have a nice day and stay tuned!
 
