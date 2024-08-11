@@ -84,7 +84,7 @@ One thing to notice here is, we also put `*args` here, which is quite essential:
 The methods `K_1`, `K_2`, `K_3`, `K_4` were supposed to take only two arguments, `x` and `y`, and process them, which intuitively sounds correct.  
 However, `self.deriv` might take ***more than two arguments***, instead of just `x` and `y`, `self.deriv` might include other arguments such as parameters used within the derivatives.  
 
-Therefore, we used `*args` to allow the pass of additional positional arguments, which means, the methods will now take ***at least two arguments***.
+Therefore, we used `*args` to allow the pass of additional positional arguments, which means, the methods will now take ***at least two arguments***.  
 It is also conventioanl to include `**kwargs` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
 In the last method, `operation`, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
@@ -111,7 +111,7 @@ We will assign the variables as:
 * `x` - the population of the prey
 * `y` - the population of the predator  
 
-Since the derivative is different between the prey and the predator, later we will initialize two instances of the class for the population of the prey and the predator. 
+Since the derivative is different between the prey and the predator, later we will initialize two instances of the class for each of them respectively.
 
 ### Creating the forward loop
 
@@ -146,7 +146,7 @@ def lotka_volterra(params):
     Y.append(y)
 ```  
 
-The forward loop function takes one parameter: `param`, it is a ***dictionary*** type object that includes all the parameters needed, which are:
+The forward loop function takes one parameter: `params`, it is a ***dictionary*** type object that includes all the parameters needed, which are:
 * Prey birthrate
 * Prey deathrate
 * Predator birthrate
@@ -162,8 +162,10 @@ In this forward loop:
 1. Get the parameters:
   * ***Initial values*** to start the loop.
   * `t_f` to end the loop.
-  * `h` which is the step size.  
-2. Initialized empty lists `T, X, Y` to store the respective values of `t, x, y` during each iteration.  
+  * `h` which is the step size.
+
+2. Initialized empty lists `T, X, Y` to store the respective values of `t, x, y` during each iteration.
+
 3. Established an `while True: ` loop, within the loop:
   * Update the value of `t`.
   * Initialized an instance of the `RK_4`, `dx` used for the prey with the prey's derivative `f_x` and step size `h`.
@@ -171,7 +173,8 @@ In this forward loop:
   * Update the value of `x`.
   * Update the value of `y`.
   * Update the value of `dx` in the next iteration with the updated value of `x` and `y`.
-  * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.  
+  * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.
+
 4. Created conditions for the loop to end:
   * when `t` reaches `t_f`.
   * Or when both the population extinct.
@@ -180,7 +183,7 @@ Now we can play around with it! With the help of ***matplot***:
 ```
 import matplotlib.pyplot as plt
 ```
-We get to have a better visual understanding of whatever is going on.  
+We get to have a better visual understanding of whatever is going on, let's try it out with the following configurations:  
 
 ```
 params = {'prey_birthrate': 0.3,
@@ -197,6 +200,7 @@ The result is the following:
 ![Figure 1]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_1.png)  
 
 We can see that, the prey was in advantage at first, but soon being surpassed by the predator, the over-powered predator results in the extinction of the prey, and when that happen, the predator extincts slowly as it has no food.  
+
 
 Now we try to give the prey more advantage:  
 
@@ -215,6 +219,7 @@ The result is the folowing:
 ![Figure 2]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_2.png)  
 
 It's surprising that the prey only hold longer a little bit, and afterwards they both distinct again.  
+
 
 Now we try one last time:
 ```

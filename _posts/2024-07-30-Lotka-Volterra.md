@@ -14,7 +14,7 @@ There are some ***assumptions*** to be made in this model:
 2. Prey born naturally and die at a rate positively affected by both populations
 3. Predators born at a rate positively affected by both populations and die naturally  
 
-In this article, we used the simple ***euler forward method*** to solve this first order IVP, in python. We will start by explaining what is euler forward method.
+In this article, we used the simple ***euler forward method*** to solve this first order IVP, in python. We will start by explaining what is euler forward method.  
 
 ### Euler forward
 Created by Leonhard Euler, the method itself is defined as:
