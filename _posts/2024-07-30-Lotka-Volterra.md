@@ -35,7 +35,6 @@ The goal of the euler forward method, is to continuously approximating the value
 
 Basically what we want to do is we setup two functions respectively for the ***derivative of the population of the prey over time***, and the ***derivative of the population of predator over time***, each of the two function will take ***two arguments***, the population of the ***prey***, and the population of the ***predator***, and the two variables will be weighted by some constant, eventually returning the derivative of the indicated specie.  
 
-
 ### Setting up the derivative
 We will use:
 * ***x*** to represent the population of the prey
@@ -68,7 +67,7 @@ The only change is, instead of writing every value for the four parameters `a, b
 ```
 params = [a, b, c, d]
 ```
-With the functions set up, we still need one more thing before iterating through the euler forward loop, ***initial conditions***, because we need a start point where the iteration is based on. 
+With the functions set up, we still need one more thing before iterating through the euler forward loop, ***initial conditions***, because we need a start point where the iteration is based on.  
 
 ### Getting the initial conditions  
 Therefore, we will start by defining our body function in the following way:  
@@ -120,7 +119,7 @@ In this block of the code:
 3. Appending the new values of `x, y, z` to their corresponding lists after each iteeration.  
 4. Stop the loop when:
   * The value of t reaches or passes `t_fin`.
-  * Or when both population extinct.
+  * Or when both population extinct.  
 
 ### Play around with the code  
 Now that the whole code is done, we can try different values and see what will happen.  
@@ -136,6 +135,7 @@ plt.title('Predator Prey Model')
 plt.show()
 ```
 Note that, the ***red curve indicates the prey, the blue one indicates the predator***  
+
 We start by the following configurations:
 ```
 h = 0.001
@@ -143,9 +143,13 @@ t_fin = 200
 init_cond = [0, 200, 10]
 params = [3.5, 0.1, 0.1, 0.3]
 ```
+
 And the following is what we get:  
 ![Figure 1]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_1.png)  
+
 We can see that, under this configuration, the population of the prey and the population of the predator kinda oscillates back and forth.  
+
+
 Now let's try to give more advantage to the predator  
 ```
 h = 0.001
@@ -153,8 +157,11 @@ t_fin = 200
 init_cond = [0, 1, 100]
 params = [0.1, 0.5, 0.5, 0.01]
 ```
-![Figure 2]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_2.png)
+![Figure 2]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_2.png)  
+
 If we did that, the predator would be too over-powered, and the prey would die off immediately, due to that, the predator won't have enough food, and will also die to extinction gradually.  
+
+
 Now let's try to give more advantage to the prey
 ```
 h = 0.001
@@ -162,8 +169,9 @@ t_fin = 200
 init_cond = [0, 1000, 1]
 params = [1, 0.01, 0.01, 0.5]
 ```
-![Figure 3]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_3.png)
-According to the graph, even if we give the prey a tons of advantage, the two population would still oscillate, because the population of the prey has a positive effect on the population of the predator.
+![Figure 3]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_3.png)  
+
+According to the graph, even if we give the prey a tons of advantage, the two population would still oscillate, because the population of the prey has a positive effect on the population of the predator.  
 
 ### Future possibilities
 This article is only about the easiest solver to Lotka Volterra  

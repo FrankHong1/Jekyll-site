@@ -87,7 +87,7 @@ However, `self.deriv` might take ***more than two arguments***, instead of just 
 Therefore, we used `*args` to allow the pass of additional positional arguments, which means, the methods will now take ***at least two arguments***.  
 It is also conventioanl to include `**kwargs` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
-In the last method, `operation`, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
+In the last method, `operation`, we called the previous 4 methods together and weighted them according to the formula, returning the final value.  
 
 ### Defining the derivatives
 
@@ -111,7 +111,7 @@ We will assign the variables as:
 * `x` - the population of the prey
 * `y` - the population of the predator  
 
-Since the derivative is different between the prey and the predator, later we will initialize two instances of the class for each of them respectively.
+Since the derivative is different between the prey and the predator, later we will initialize two instances of the class for each of them respectively.  
 
 ### Creating the forward loop
 
@@ -177,13 +177,17 @@ In this forward loop:
 
 4. Created conditions for the loop to end:
   * when `t` reaches `t_f`.
-  * Or when both the population extinct.
+  * Or when both the population extinct.  
+
+### Playing around with it
 
 Now we can play around with it! With the help of ***matplot***:  
 ```
 import matplotlib.pyplot as plt
 ```
-We get to have a better visual understanding of whatever is going on, let's try it out with the following configurations:  
+We get to have a better visual understanding of whatever is going on.  
+
+Let's try it out with the following configurations:  
 
 ```
 params = {'prey_birthrate': 0.3,
@@ -236,7 +240,7 @@ params = {'prey_birthrate': 0.2,
 The result is the following:
 ![Figure 3]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_3.png)  
 
-Now the prey given less advantage, is in fact more resilient, but afterwards they still both extinct.
+Now the prey given less advantage, is in fact more resilient, but afterwards they still both extinct.  
 
 ### Summary
 This article talks about how to use RK4 to solve lotka volterra.  
