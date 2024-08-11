@@ -84,7 +84,7 @@ One thing to notice here is, we also put `*args` here, which is quite essential:
 The methods `K_1`, `K_2`, `K_3`, `K_4` were supposed to take only two arguments, `x` and `y`, and process them, which intuitively sounds correct.  
 However, `self.deriv` might take ***more than two arguments***, instead of just `x` and `y`, `self.deriv` might include other arguments such as parameters used within the derivatives.  
 
-Therefore, we used `*args` to allow additional positional arguments, which means, the methods will now take ***at least two arguments***.
+Therefore, we used `*args` to allow the pass of additional positional arguments, which means, the methods will now take ***at least two arguments***.
 It is also conventioanl to include `**kwargs` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
 In the last method, `operation`, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
@@ -164,8 +164,8 @@ In this forward loop:
 1. Get the parameters:
   * ***Initial values*** to start the loop.
   * `t_f` to end the loop.
-  * `h` which is the step size.
-2. Initialized empty lists `T, X, Y` to store the respective values of `t, x, y` during each iteration. 
+  * `h` which is the step size.  
+2. Initialized empty lists `T, X, Y` to store the respective values of `t, x, y` during each iteration.  
 3. Established an `while True: ` loop, within the loop:
   * Update the value of `t`.
   * Initialized an instance of the `RK_4`, `dx` used for the prey with the prey's derivative `f_x` and step size `h`.
@@ -173,9 +173,9 @@ In this forward loop:
   * Update the value of `x`.
   * Update the value of `y`.
   * Update the value of `dx` in the next iteration with the updated value of `x` and `y`.
-  * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.
-6. Created conditions for the loop to end:
-  * when t reaches `t_f`.
+  * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.  
+4. Created conditions for the loop to end:
+  * when `t` reaches `t_f`.
   * when both the population extinct.
 
 Now we can play around with it! With the help of matplot:
