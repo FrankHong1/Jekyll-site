@@ -30,7 +30,7 @@ You can find the derivation of RK4 through the following link, but we will not f
 
 ### RK4 in python  
 Intuitively thinking, we might just go and define a bunch of functions.  
-But considering the relatively complex structures and the fact that the method requires 4 values each iteration, it is much cleaner and efficient to create a class.
+But considering the relatively complex structures and the fact that the method requires 4 values at each iteration, it is much cleaner and efficient to create a class.
 
 ```
 class RK_4:
@@ -74,20 +74,20 @@ class RK_4:
 ```  
 
 Initialization method assigns an instance of the class its own properties, and we can call its own properties when needed.  
-We put 2 parameters(other than self) in the initialization method, which is deriv, and h:
+We put 2 parameters(other than self) in the initialization method, which is `deriv`, and `h`:
 * `deriv` - basically just f(x, y)
-* `h` - the size step during each iteration  
+* `h` - the step size during each iteration  
 
-As mentioned previously, RK4 takes 4 values during each iteration, therefore, we assign 4 methods respectively for K1, K2, K3 and K4 according to the formula.  
+As mentioned previously, `RK_4` takes 4 values during each iteration, therefore, we assign 4 methods respectively for `K_1`, `K_2`, `K_3` and `K_4` according to the formula.  
 
-One thing to notice here is, we also put ___*args___ here, which is quite essential:  
-The methods K1, K2, K3, K4 were supposed to take only two arguments, ***x and y***, and process them, which intuitively sounds correct.  
-However, `***self.deriv***` might take ***more than two arguments***, instead of just x and y, self.deriv might include other arguments such as parameters used inside the derivative.  
+One thing to notice here is, we also put `*args` here, which is quite essential:  
+The methods `K_1`, `K_2`, `K_3`, `K_4` were supposed to take only two arguments, `x` and `y`, and process them, which intuitively sounds correct.  
+However, `self.deriv` might take ***more than two arguments***, instead of just `x` and `y`, `self.deriv` might include other arguments such as parameters used within the derivatives.  
 
-Therefore, we used `___*args___` to allow additional positional arguments, which means, the methods will now take ___at least two arguments___.
-It is also conventioanl to include `___**kwargs___` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
+Therefore, we used `*args` to allow additional positional arguments, which means, the methods will now take ***at least two arguments***.
+It is also conventioanl to include `**kwargs` to include keyword arguments, in my case, I know I won't be passing any keyword parameters, therefore I did not include it.  
 
-In the last method, the operation, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
+In the last method, `operation`, we called the previous 4 methods together and weighted them according to the formula, returning the final value.
 
 ### Defining the derivatives
 
@@ -108,8 +108,8 @@ def f_y(x, y, params):
 
 We define the derivatives of population against time for prey and predator respectively.  
 We will assign the variables as: 
-* x - the population of the prey
-* y - the population of the predator  
+* `x` - the population of the prey
+* `y` - the population of the predator  
 
 Since the derivative is different between the prey and the predator, later we will initialize two instances of the class for the population of the prey and the predator. 
 
@@ -148,7 +148,7 @@ def lotka_volterra(params):
     Y.append(y)
 ```  
 
-The forward loop function takes one parameter: `param`, it is a dictionary object that includes all the parameters needed, which are:
+The forward loop function takes one parameter: `param`, it is a ***dictionary*** type object that includes all the parameters needed, which are:
 * Prey birthrate
 * Prey deathrate
 * Predator birthrate
@@ -158,19 +158,25 @@ The forward loop function takes one parameter: `param`, it is a dictionary objec
 * Interval
 * Step size  
 
-Notice that the ***order doesn't matter***, since we will be calling the values we need by ***calling the key***, instead of the index.  
+Notice that the ***order doesn't matter***, since we will be calling the values we needed by ***calling the key***, instead of the index.  
 
 In this forward loop:
-1. Get the parameters needed like the initial values, \$ t_f \$ which will be used to determine when the loop ends, and `h` which is the step size.
-2. Initialized empty lists `***T, X, Y***` to store the respective values of ***`t, x, y`*** during each iteration. 
-3. Established an 'while True' loop, within the loop:
-  * Update 
-  * Initialized an instance of the RK4, ***dx*** used for the prey with the prey's derivative `f_x` and step size `h`.
-  * Update ***dx*** in each iteration with the updated values of x and y.
-  * Vice versa for the predator
+1. Get the parameters:
+  * ***Initial values*** to start the loop.
+  * `t_f` to end the loop.
+  * `h` which is the step size.
+2. Initialized empty lists `T, X, Y` to store the respective values of `t, x, y` during each iteration. 
+3. Established an `while True: ` loop, within the loop:
+  * Update the value of `t`.
+  * Initialized an instance of the `RK_4`, `dx` used for the prey with the prey's derivative `f_x` and step size `h`.
+  * Initialized an instance of the `RK_4`, `dy` used for the predator with the predator's derivative `f_y` and step size `h`.
+  * Update the value of `x`.
+  * Update the value of `y`.
+  * Update the value of `dx` in the next iteration with the updated value of `x` and `y`.
+  * Update the value of `dy` in the next iteration with the updated value of `x` and `y`.
 6. Created conditions for the loop to end:
-  * when t reaches \$ t_f \$
-  * when both the population extinct
+  * when t reaches `t_f`.
+  * when both the population extinct.
 
 Now we can play around with it! With the help of matplot:
 ```
