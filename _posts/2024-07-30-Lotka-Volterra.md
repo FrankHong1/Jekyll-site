@@ -144,7 +144,7 @@ init_cond = [0, 200, 10]
 params = [3.5, 0.1, 0.1, 0.3]
 ```
 And the following is what we get:  
-![Figure 1](/assets/images/Lotka-Volterra/Figure_1.png)  
+![Figure 1]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_1.png)  
 We can see that, under this configuration, the population of the prey and the population of the predator kinda oscillates back and forth.  
 Now let's try to give more advantage to the predator  
 ```
@@ -153,7 +153,7 @@ t_fin = 200
 init_cond = [0, 1, 100]
 params = [0.1, 0.5, 0.5, 0.01]
 ```
-![Figure 2](/assets/images/Lotka-Volterra/Figure_2.png)
+![Figure 2]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_2.png)
 If we did that, the predator would be too over-powered, and the prey would die off immediately, due to that, the predator won't have enough food, and will also die to extinction gradually.  
 Now let's try to give more advantage to the prey
 ```
@@ -162,7 +162,7 @@ t_fin = 200
 init_cond = [0, 1000, 1]
 params = [1, 0.01, 0.01, 0.5]
 ```
-![Figure 3](/assets/images/Lotka-Volterra/Figure_3.png)
+![Figure 3]({{ site.baseurl }}/assets/images/Lotka-Volterra/Figure_3.png)
 According to the graph, even if we give the prey a tons of advantage, the two population would still oscillate, because the population of the prey has a positive effect on the population of the predator.
 
 ### Future possibilities

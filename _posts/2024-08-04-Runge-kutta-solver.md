@@ -194,7 +194,7 @@ params = {'prey_birthrate': 0.3,
 ```  
 
 The result is the following:
-![Figure 1](/assets/images/Runge-kutta-solver/Figure_1.png)  
+![Figure 1]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_1.png)  
 
 We can see that, the prey was in advantage at first, but soon being surpassed by the predator, the over-powered predator results in the extinction of the prey, and when that happen, the predator extincts slowly as it has no food.  
 
@@ -212,7 +212,7 @@ params = {'prey_birthrate': 1,
 ```  
 
 The result is the folowing:
-![Figure 2](/assets/images/Runge-kutta-solver/Figure_2.png)  
+![Figure 2]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_2.png)  
 
 It's surprising that the prey only hold longer a little bit, and afterwards they both distinct again.  
 
@@ -229,9 +229,9 @@ params = {'prey_birthrate': 0.2,
 ```  
 
 The result is the following:
-![Figure 3](/assets/images/Runge-kutta-solver/Figure_3.png)  
+![Figure 3]({{ site.baseurl }}/assets/images/Runge-kutta-solver/Figure_3.png)  
 
-Now the prey given less advantage, is in fact more OP, and causing the extinction of the predator.  
+Now the prey given less advantage, is in fact more resilient, but afterwards they still both extinct.
 
 ### Summary
 This article talks about how to use RK4 to solve lotka volterra.  
